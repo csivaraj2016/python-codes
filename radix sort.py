@@ -20,48 +20,47 @@
 
 
 
-def countingSort(array, place):             #  used to initialize the places
-    size = len(array)
-    output = [0] * size
-    count = [0] * 10
+def countingSort(A, position,k=10):             #  used to initialize the places
+    n = len(A)          # cal the number of elts in A
+    B = [0] * n
+    count = [0] * k
 
                                                      # Calculate count of elements
-    for i in range(0, size):
-        index = array[i] // place
+    for i in range(0, n):
+        index = A[i] // position
         count[index % 10] += 1
 
-
-    for i in range(1, 10):
-        count[i] += count[i - 1]
-        print(count)
+        # because values  only  range from 0-9
+    for i in range(1, k):
+        count[i] =count[i]+ count[i - 1]
 
 
 
                                                             # this fn used for  Place the elements in sorted order
-    i = size - 1
+    i = n - 1
     while i >= 0:
-        index = array[i] // place
-        output[count[index % 10] - 1] = array[i]
-        count[index % 10] -= 1
+        index = A[i] // position
+        B[count[index % 10] - 1] = A[i]
+        count[index % 10] -= 1              # every time count val decresed
         i -= 1
-        print(output)
 
-    for i in range(0, size):
-        array[i] = output[i]
+
+    for i in range(0, n):           # restoring the value
+        A[i] = B[i]
 
 
                                             #  radix sort main fn
-def radixSort(array):
+def radixSort(A):
                                                     # Get maximum element
-    max_element = max(array)
+    max_element = max(A)
 
                                                         # Apply counting sort based on place value.
-    place = 1
-    while max_element // place > 0:
-        countingSort(array, place)
-        place *= 10
+    position = 1
+    while (max_element//position>0):
+        countingSort(A, position)
+        position *= 10
 
 
-data = [557, 455]
+data = [557, 455,234,12,567,23555,67,45]
 radixSort(data)
 print(data)
